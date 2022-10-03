@@ -5,6 +5,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+      <div className = "version">V1.01</div>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           NILProject development server
