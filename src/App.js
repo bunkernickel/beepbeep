@@ -1,45 +1,51 @@
-import logo from './download.jpeg';
+
 import './App.css';
+import Home from './Pages/Home';
+import Landing from './Pages/Landing';
+import Users from './Pages/Users';
+import Videos from './Pages/Videos';
+import './Header';
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
+
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-      <div className = "version">V1.01</div>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          NILProject development server
-        </p>
-        <div>
-          Links to our sites:
+      <Router>
+
+        <div className='nav'>
+          <nav>
+            <Link to="/" className='headerlink-title'>Landing</Link>
+            <Link to="/home" className='headerlink-title'>Home</Link>
+            <Link to="/videos" className='headerlink-title'>Videos</Link>
+            <Link to="/users" className='headerlink-title'>Users</Link>
+
+          </nav>
         </div>
-        <a
-          className="App-link"
-          href="https://drive.google.com/drive/folders/1JTyFjwYsAKY4JwzCAeN94vbVGYR-pjHD"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Shared folder
-        </a>
-        <a
-          className="App-link"
-          href="https://app.asana.com/0/1202927509660694/1203010425889848"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Asana
-        </a>
-        <a
-          className="App-link"
-          href="https://www.youtube.com/watch?v=hQAHSlTtcmY&ab_channel=WebDevSimplified"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          react lol ( eventual gate to demo site arch )
-        </a>
-      </header>
+        <hr />
+        <div>
+          <Routes>
+            <Route exact path='/' element={<Landing />} />
+            <Route exact path='/home' element={<Home />} />
+            <Route exact path='/videos' element={<Videos />} />
+            <Route exact path='/users' element={<Users/>} />
+          </Routes>
+        </div>
+
+
+
+      </Router>
     </div>
   );
 }
+
+
 
 export default App;
