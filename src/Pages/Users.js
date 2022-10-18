@@ -1,38 +1,48 @@
 
-import UserList from './UsersComp/UserList.js';
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+import CreateUser from '../Support/CreateUser.js'
+import '../App.css'
 
-function Users()  {
-    const [users, addUsers] = useState([])
-    const addUserNameRef = useRef()
+function Users() {
 
-    function handleAddUser(e){
-        const name = addUserNameRef.current.value
-        
-        if (name === '') return
-        console.log(name)
-        addUsers(prevUsers => {
-            return [...prevUsers, {id: 1, name:{name}}]
+    const [userList, setUserList] = useState([]);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        Axios.get("http://localhost:3002/api/get").then((data) => {
+            setUserList(data.data)
+        });
+    }, [])
+
+    const LikeUser = (id) => {
+        Axios.user(`http://localhost:3002/api/like/${id}`).then((response) => {
+            alert("you liked a user")
         })
-        addUserNameRef.current.value = null
     }
-    
     return (
-        <div>
-    
-            <div>
-                <h2>Users Page</h2>
+
+        <div className="MainPage">
+            <CreateUser />
+            <div className="UserContainer">
+                {userList.map((val, key) => {
+                    return (
+                        <div className="User" >
+                            <h1 className="user-title" onClick={() => (navigate(`/user/${val.id}`))}>{val.title}</h1>
+                            <p>{val.user_text.length > 300 ? val.user_text.substring(0, 300) + " ..." : val.user_text}</p>
+                            <h4>{val.user_name}</h4>
+                            <button className="like_btn" onClick={(() => LikeUser(val.id))}>Like</button>
+
+                            <h5>Likes: {val.likes}</h5>
+                        </div>
+                    )
+                })}
             </div>
-            <div>Add a user</div>    
-            <input ref={addUserNameRef} type = "text" />
-            
-            <button>Clear User List</button>
-        
-            <UserList users = {users} />
-            
-    
         </div>
-    );
+    )
 }
 
 export default Users;
+
